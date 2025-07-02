@@ -26,7 +26,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <Tag
-      className={`${styles.container} ${className}`}
+      className={`${styles.containerWrapper} ${className}`}
       style={{
         flexDirection: direction === 'row' ? 'row' : 'column',
         gap,

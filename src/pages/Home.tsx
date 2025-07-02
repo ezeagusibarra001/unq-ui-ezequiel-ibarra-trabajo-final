@@ -57,7 +57,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="container">
+    <main className="container bg-white">
       <Container justify="center" align="center" gap="1.5rem">
         <img src="wordle-icon.svg" alt="Wordle Icon" />
         <h1 className="text-title">Wordle</h1>

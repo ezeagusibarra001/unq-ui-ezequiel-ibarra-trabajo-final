@@ -1,4 +1,8 @@
 import { useLocation, useParams } from "react-router-dom";
+import WordBox from "../components/play/WordBox";
+import { ATTEMPTS } from "../constants/play";
+import Container from "../components/ui/layout/Container";
+import Keyboard from "../components/play/Keyboard";
 
 export default function PlayPage() {
   const location = useLocation();
@@ -6,11 +10,15 @@ export default function PlayPage() {
   const { sessionId } = useParams();
 
   return (
-    <div>
-      <h1>Play Page</h1>
-      <p>Difficulty: {difficulty?.name}</p>
-      <p>Word length: {wordLength}</p>
-      <p>Session ID: {sessionId}</p>
-    </div>
+    <section className="container bg-black">
+      <Container justify="center" align="center" gap="16px" className="pt-4">
+        <Container gap="8px" align="center" justify="center">
+          {Array.from({ length: ATTEMPTS }, (_, index) => (
+            <WordBox wordLength={wordLength} key={index} />
+          ))}
+        </Container>
+        <Keyboard />
+      </Container>
+    </section>
   );
 }
