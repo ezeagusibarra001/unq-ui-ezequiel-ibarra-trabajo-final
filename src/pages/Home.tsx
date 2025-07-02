@@ -21,7 +21,6 @@ export default function HomePage() {
     try {
       setLoadingDificulties(true);
       const res = await api.get<Difficulty[]>(API_ROUTES.getDificulties);
-      console.log("Difficulties fetched:", res.data);
       setDifficulties(res.data);
       setLoadingDificulties(false);
     } catch (error) {
@@ -34,7 +33,6 @@ export default function HomePage() {
       setLoading(true);
       toast.loading("Creating session...");
       const session = await createSession(difficulty);
-      console.log("Session created:", session);
       toast.dismiss();
       toast.success("Session created successfully!");
       navigate(`/play/${session.sessionId}`, {

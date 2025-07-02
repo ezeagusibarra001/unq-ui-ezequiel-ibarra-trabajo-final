@@ -5,7 +5,7 @@ import Container from "../components/ui/layout/Container";
 import Keyboard from "../components/play/Keyboard";
 import WordBox from "../components/play/WordBox";
 
-import { ATTEMPTS } from "../constants/play";
+import { ATTEMPTS, FLIP_DURATION } from "../constants/play";
 import { WordStatus, type LetterBox } from "../types/global";
 import { toast } from "react-toastify";
 import { checkWord } from "../services/play.service";
@@ -15,6 +15,10 @@ export default function PlayPage() {
   const { sessionId } = useParams();
   const wordLength = state?.wordLength;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<number | null>(null);
+  const [oneMoreRoundIndex, setOneMoreRoundIndex] = useState<number | null>(
+    null
+  );
 
   const [tries, setTries] = useState<LetterBox[][]>(() =>
     Array.from({ length: ATTEMPTS }, () =>
@@ -27,7 +31,6 @@ export default function PlayPage() {
 
   const [currentAttempt, setCurrentAttempt] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-
 
   const updateLetter = (index: number, value: LetterBox) => {
     setTries((prev) => {
@@ -71,19 +74,17 @@ export default function PlayPage() {
     [currentAttempt, currentIndex]
   );
 
-
   const validateAttempt = async () => {
-    console.log("Validating attempt:", tries[currentAttempt]);
     try {
       if (!sessionId) {
         navigate("/");
         return;
       }
+      setLoading(currentAttempt);
       const wordValidation = await checkWord(
         sessionId,
         tries[currentAttempt].map((box) => box.letter.toLowerCase()).join("")
       );
-      console.log("Validation response:", wordValidation);
       setTries((prev) => {
         const updated = [...prev];
         const validatedAttempt = wordValidation;
@@ -98,7 +99,12 @@ export default function PlayPage() {
       const HAS_LOST = currentAttempt + 1 >= ATTEMPTS && !HAS_WON;
       if (HAS_WON) {
         toast.success("Congratulations! You've guessed the word!");
-        navigate("/success");
+        navigate("/success", {
+          state: {
+            word: tries[currentAttempt].map((box) => box.letter).join(""),
+          },
+          replace: true,
+        });
       }
       if (HAS_LOST) {
         toast.error("Game over! You've used all attempts.");
@@ -107,6 +113,12 @@ export default function PlayPage() {
     } catch (error) {
       console.error("Error validating attempt:", error);
       toast.error("Error validating attempt. Please try again.");
+    } finally {
+      setOneMoreRoundIndex(currentAttempt);
+      setTimeout(() => {
+        setOneMoreRoundIndex(null);
+        setLoading(null);
+      }, wordLength * FLIP_DURATION + FLIP_DURATION);
     }
   };
 
@@ -122,13 +134,17 @@ export default function PlayPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleOnPress]);
 
-
   return (
     <section className="container bg-black">
       <Container justify="center" align="center" gap="16px" className="pt-4">
         <Container gap="8px" align="center" justify="center">
           {tries.map((word, index) => (
-            <WordBox key={index} word={word} />
+            <WordBox
+              key={index}
+              word={word}
+              loading={loading === index}
+              oneMoreRound={oneMoreRoundIndex === index}
+            />
           ))}
         </Container>
         <Keyboard onKeyPress={handleOnPress} />
