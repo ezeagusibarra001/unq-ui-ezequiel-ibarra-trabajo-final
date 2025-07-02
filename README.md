@@ -1,70 +1,102 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 # unq-ui-ezequiel-ibarra-trabajo-final
+
+A Wordle-like game built with React, TypeScript, and Vite.
+
+## Project Overview
+
+This project is a web-based word game inspired by Wordle, developed as a final assignment for the UI course at UNQ. It leverages modern web technologies for a fast and interactive user experience.
+
+You can try the live version here: [unq-ui-ezequiel-ibarra-trabajo-final.vercel.app](https://unq-ui-ezequiel-ibarra-trabajo-final.vercel.app/)
+
+---
+
+## Getting Started
+
+Follow these steps to set up and run the project locally.
+
+### 1. Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 16 or higher recommended)
+- [Yarn](https://yarnpkg.com/) (or use `npm` if you prefer)
+
+### 2. Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/your-username/unq-ui-ezequiel-ibarra-trabajo-final.git
+cd unq-ui-ezequiel-ibarra-trabajo-final
+yarn install
+# or, if you use npm:
+# npm install
+```
+
+### 3. Running the Development Server
+
+Start the local development server:
+
+```bash
+yarn dev
+# or
+# npm run dev
+```
+
+The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+### 4. Building for Production
+
+To create an optimized production build:
+
+```bash
+yarn build
+# or
+# npm run build
+```
+
+The output will be in the `dist/` directory.
+
+### 5. Previewing the Production Build
+
+You can preview the production build locally:
+
+```bash
+yarn preview
+# or
+# npm run preview
+```
+
+---
+
+## Project Structure
+
+- `src/` - Main source code (components, pages, services, styles, etc.)
+- `public/` - Static assets
+- `index.html` - Main HTML entry point
+- `package.json` - Project metadata and scripts
+
+---
+
+## Linting and Code Quality
+
+This project uses ESLint with recommended rules for TypeScript and React. To run the linter:
+
+```bash
+yarn lint
+# or
+# npm run lint
+```
+
+---
+
+## Useful Links
+
+- [Live Demo](https://unq-ui-ezequiel-ibarra-trabajo-final.vercel.app/)
+- [Vite Documentation](https://vitejs.dev/)
+- [React Documentation](https://react.dev/)
+- [TypeScript Documentation](https://www.typescriptlang.org/)
+
+---
+
+## License
+
+This project is for educational purposes.
