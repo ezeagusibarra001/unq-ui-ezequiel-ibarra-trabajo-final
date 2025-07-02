@@ -7,7 +7,6 @@ interface WordBoxProps {
 }
 
 export default function WordBox({ word }: WordBoxProps) {
-  console.log("Rendering WordBox", word);
   return (
     <div className={styles.containerWordBox}>
       {word.map((box, i) => {

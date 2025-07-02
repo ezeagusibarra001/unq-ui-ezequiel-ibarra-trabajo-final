@@ -15,14 +15,12 @@ body,
   height: 100vh;
 }
 
-// Reset box-sizing for all elements
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-// Remove default margin and set font for headings and paragraphs
 h1,
 h2,
 h3,
@@ -35,7 +33,6 @@ p {
   font-weight: normal;
 }
 
-// Remove list styles and padding
 ul,
 ol {
   margin: 0;
