@@ -6,6 +6,8 @@
   border: 1px solid $color-black;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
+  width: 155px;
+  height: 3em;
 
   &--default {
     background: $color-black;
