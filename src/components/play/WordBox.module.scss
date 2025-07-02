@@ -4,7 +4,7 @@
 }
 
 .input {
-  width: 50px;
+  width: clamp(36px, 12vw, 50px);
   height: auto;
   aspect-ratio: 1 / 1;
   text-align: center;

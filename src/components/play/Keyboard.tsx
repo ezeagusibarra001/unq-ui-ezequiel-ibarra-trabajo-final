@@ -1,4 +1,3 @@
-// components/Keyboard.tsx
 import styles from './Keyboard.module.scss';
 
 const KEYS = [
@@ -12,15 +11,18 @@ export default function Keyboard({ onKeyPress }: { onKeyPress?: (key: string) =>
     <div className={styles.keyboard}>
       {KEYS.map((row, rowIndex) => (
         <div key={rowIndex} className={styles.row}>
-          {row.map((key) => (
-            <button
-              key={key}
-              className={styles.key}
-              onClick={() => onKeyPress?.(key)}
-            >
-              {key}
-            </button>
-          ))}
+          {row.map((key) => {
+            const isSpecial = key === "ENTER" || key === "⌫";
+            return (
+              <button
+                key={key}
+                className={`${styles.key} ${isSpecial ? styles.wideKey : ""}`}
+                onClick={() => onKeyPress?.(key)}
+              >
+                {key}
+              </button>
+            );
+          })}
         </div>
       ))}
     </div>
