@@ -147,7 +147,7 @@ export default function PlayPage() {
             />
           ))}
         </Container>
-        <Keyboard onKeyPress={handleOnPress} />
+        <Keyboard onKeyPress={handleOnPress} tries={tries} />
       </Container>
     </section>
   );

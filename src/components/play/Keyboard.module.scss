@@ -22,16 +22,36 @@
   font-size: 1rem;
   border-radius: 0.3rem;
   border: none;
-  background: #eee;
   cursor: pointer;
   transition: background 0.2s;
   word-break: break-word;
-  background-color: #818384;
-  color: white;
   font-weight: bold;
   text-align: center;
   transition: background-color 0.2s ease;
   width: 2.6rem;
+
+  &--default {
+    background-color: $color-gray-600;
+    color: $color-white;
+  }
+
+  &--correct {
+    background-color: $wordle-green;
+    border-color: $wordle-green;
+    color: $color-gray-100;
+  }
+
+  &--elsewhere {
+    background-color: $wordle-yellow;
+    border-color: $wordle-yellow;
+    color: $color-gray-100;
+  }
+
+  &--absent {
+    background-color: $color-gray-800;
+    border-color: $color-gray-800;
+    color: $color-gray-100;
+  }
 
   &:hover {
     background-color: #565758;
