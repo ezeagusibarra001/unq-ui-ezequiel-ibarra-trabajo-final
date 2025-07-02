@@ -18,11 +18,12 @@ export enum WordStatus {
   CORRECT = "correct",
   ELSEWHERE = "elsewhere",
   ABSENT = "absent",
+  DEFAULT = "default",
 }
 
-export interface CheckWord {
+export interface LetterBox {
   letter: string;
   solution: WordStatus;
 }
 
-export type CheckWordResponse = CheckWord[];
+export type CheckWordResponse = LetterBox[];
