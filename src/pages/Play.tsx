@@ -112,7 +112,19 @@ export default function PlayPage() {
       }
     } catch (error) {
       console.error("Error validating attempt:", error);
-      toast.error("Error validating attempt. Please try again.");
+      toast.error(
+        "Error validating attempt. Please try again with another word."
+      );
+      setTries((prev) => {
+        const updated = [...prev];
+        updated[currentAttempt] = updated[currentAttempt].map(() => ({
+          letter: "",
+          solution: WordStatus.DEFAULT,
+        }));
+        return updated;
+      });
+    
+      setCurrentIndex(0);
     } finally {
       setOneMoreRoundIndex(currentAttempt);
       setTimeout(() => {
