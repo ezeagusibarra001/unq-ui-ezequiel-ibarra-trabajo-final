@@ -8,6 +8,7 @@ import { retrieveCurrentDate } from "../helper/dates";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createSession } from "../services/play.service";
+import Spinner from "../components/ui/layout/Spinner";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -28,15 +29,11 @@ export default function HomePage() {
     }
   };
 
-  const handleCreateSession = async () => {
+  const handleCreateSession = async (difficulty: Difficulty) => {
     try {
-      if (!selectedDifficulty) {
-        toast.error("Please select a difficulty level.");
-        return;
-      }
       setLoading(true);
       toast.loading("Creating session...");
-      const session = await createSession(selectedDifficulty);
+      const session = await createSession(difficulty);
       console.log("Session created:", session);
       toast.dismiss();
       toast.success("Session created successfully!");
@@ -67,6 +64,11 @@ export default function HomePage() {
         <p className="text-subtitle text-center">
           Get 6 chances to guess a 5-letter word.
         </p>
+        {
+          loadingDificulties && (
+            <Spinner />
+          )
+        }
         {!selectedDifficulty &&
           dificulties.map((difficulty) => (
             <Button
@@ -81,7 +83,7 @@ export default function HomePage() {
           <>
             <Button
               loading={loadingDificulties || loading}
-              onClick={handleCreateSession}
+              onClick={() => handleCreateSession(selectedDifficulty)}
             >
               Play in {selectedDifficulty.name.toLowerCase()}
             </Button>

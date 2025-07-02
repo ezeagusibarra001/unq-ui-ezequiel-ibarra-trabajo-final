@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Button.module.scss";
+import Spinner from "../layout/Spinner";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "default" | "outline";
@@ -25,7 +26,7 @@ export default function Button({
       disabled={disabled || loading}
       {...props}
     >
-      {loading ? <span className={styles.spinner} /> : children}
+      {loading ? <Spinner /> : children}
     </button>
   );
 }
