@@ -3,11 +3,15 @@ import styles from "./Button.module.scss";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "default" | "outline";
+  loading?: boolean;
 };
 
 export default function Button({
   variant = "default",
+  loading = false,
   className = "",
+  children,
+  disabled,
   ...props
 }: ButtonProps) {
   const VARIANTS_MAP = {
@@ -18,9 +22,10 @@ export default function Button({
   return (
     <button
       className={`${styles.button} ${VARIANTS_MAP[variant]} ${className}`}
+      disabled={disabled || loading}
       {...props}
     >
-      {props.children}
+      {loading ? <span className={styles.spinner} /> : children}
     </button>
   );
 }

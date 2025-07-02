@@ -6,7 +6,7 @@
   border: 1px solid $color-black;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
-  width: 155px;
+  min-width: 155px;
   height: 3em;
 
   &--default {
@@ -17,5 +17,28 @@
   &--outline {
     background: transparent;
     color: $color-black;
+  }
+
+  &.button:disabled {
+    color: $color-gray-500;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
