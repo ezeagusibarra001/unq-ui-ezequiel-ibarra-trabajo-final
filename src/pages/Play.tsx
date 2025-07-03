@@ -13,24 +13,53 @@ import { checkWord } from "../services/play.service";
 export default function PlayPage() {
   const { state } = useLocation();
   const { sessionId } = useParams();
-  const wordLength = state?.wordLength;
   const navigate = useNavigate();
+
+  const gameStateKey = `gameState-${sessionId}`;
+  const savedGameState = (() => {
+    try {
+      const saved = localStorage.getItem(gameStateKey);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  })();
+
+  const wordLength = state?.wordLength ?? savedGameState?.wordLength;
+
   const [loading, setLoading] = useState<number | null>(null);
   const [oneMoreRoundIndex, setOneMoreRoundIndex] = useState<number | null>(
     null
   );
 
-  const [tries, setTries] = useState<LetterBox[][]>(() =>
-    Array.from({ length: ATTEMPTS }, () =>
+  const [tries, setTries] = useState<LetterBox[][]>(() => {
+    if (savedGameState?.tries) return savedGameState.tries;
+    return Array.from({ length: ATTEMPTS }, () =>
       Array.from({ length: wordLength }, () => ({
         letter: "",
         solution: WordStatus.DEFAULT,
       }))
-    )
+    );
+  });
+
+  const [currentAttempt, setCurrentAttempt] = useState(
+    () => savedGameState?.currentAttempt ?? 0
+  );
+  const [currentIndex, setCurrentIndex] = useState(
+    () => savedGameState?.currentIndex ?? 0
   );
 
-  const [currentAttempt, setCurrentAttempt] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    if (sessionId && wordLength) {
+      const state = {
+        tries,
+        currentAttempt,
+        currentIndex,
+        wordLength,
+      };
+      localStorage.setItem(gameStateKey, JSON.stringify(state));
+    }
+  }, [tries, currentAttempt, currentIndex, wordLength, sessionId]);
 
   const updateLetter = (index: number, value: LetterBox) => {
     setTries((prev) => {
@@ -81,23 +110,27 @@ export default function PlayPage() {
         return;
       }
       setLoading(currentAttempt);
-      const wordValidation = await checkWord(
-        sessionId,
-        tries[currentAttempt].map((box) => box.letter.toLowerCase()).join("")
-      );
+      const word = tries[currentAttempt]
+        .map((box) => box.letter.toLowerCase())
+        .join("");
+      const wordValidation = await checkWord(sessionId, word);
+
       setTries((prev) => {
         const updated = [...prev];
-        const validatedAttempt = wordValidation;
-        updated[currentAttempt] = validatedAttempt;
+        updated[currentAttempt] = wordValidation;
         return updated;
       });
-      setCurrentAttempt((prev) => prev + 1);
-      setCurrentIndex(0);
+
       const HAS_WON = wordValidation.every(
         (box) => box.solution === WordStatus.CORRECT
       );
       const HAS_LOST = currentAttempt + 1 >= ATTEMPTS && !HAS_WON;
+
+      setCurrentAttempt(currentAttempt + 1);
+      setCurrentIndex(0);
+
       if (HAS_WON) {
+        localStorage.removeItem(gameStateKey);
         toast.success("Congratulations! You've guessed the word!");
         navigate("/success", {
           state: {
@@ -106,7 +139,9 @@ export default function PlayPage() {
           replace: true,
         });
       }
+
       if (HAS_LOST) {
+        localStorage.removeItem(gameStateKey);
         toast.error("Game over! You've used all attempts.");
         navigate("/game-over");
       }
@@ -123,7 +158,6 @@ export default function PlayPage() {
         }));
         return updated;
       });
-    
       setCurrentIndex(0);
     } finally {
       setOneMoreRoundIndex(currentAttempt);
